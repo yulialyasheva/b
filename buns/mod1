@@ -1,18 +1,14 @@
-// Класс Person
 public class Person {
     private String name;
     private int age;
     private Pet pet;
 
-    // Конструктор с аннотацией @Autowired
-    @Autowired
     public Person(String name, int age, Pet pet) {
         this.name = name;
         this.age = age;
         this.pet = pet;
     }
 
-    // Геттеры и сеттеры
     public String getName() {
         return name;
     }
@@ -38,17 +34,13 @@ public class Person {
     }
 }
 
-// Класс Pet
 public abstract class Pet {
     private String name;
 
-    // Конструктор с аннотацией @Value
-    @Value("${pet.name}")
     public Pet(String name) {
         this.name = name;
     }
 
-    // Геттер и сеттер
     public String getName() {
         return name;
     }
@@ -57,22 +49,72 @@ public abstract class Pet {
         this.name = name;
     }
 
-    // Абстрактный метод для издания звука
     public abstract void makeSound();
 }
 
-// Класс Dog, наследующий от Pet
 public class Dog extends Pet {
 
-    // Конструктор с аннотацией @Value
-    @Value("${dog.name}")
     public Dog(String name) {
         super(name);
     }
 
-    // Переопределение метода makeSound()
-    @Override
     public void makeSound() {
         System.out.println("Гав-гав!");
     }
+}
+<!-- XML-конфигурация для классов Person, Pet и Dog -->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+  <!-- Бин для класса Person -->
+  <bean id="person" class="com.example.Person">
+      <!-- Установка свойств имени, возраста и питомца -->
+      <property name="name" value="Анна"/>
+      <property name="age" value="25"/>
+      <property name="pet" ref="dog"/>
+  </bean>
+
+  <!-- Бин для класса Dog -->
+  <bean id="dog" class="com.example.Dog">
+      <!-- Установка свойства имени -->
+      <property name="name" value="Бобик"/>
+  </bean>
+
+</beans>
+public class Main {
+
+  public static void main(String[] args) {
+      ApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
+
+      Person person = context.getBean("person", Person.class);
+
+      System.out.println("Имя: " + person.getName());
+      System.out.println("Возраст: " + person.getAge());
+      System.out.println("Питомец: " + person.getPet().getName());
+      person.getPet().makeSound();
+
+      ((ClassPathXmlApplicationContext) context).close();
+  }
+}
+public class Main {
+
+  public static void main(String[] args) {
+      AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext();
+
+      context.register(Person.class);
+      context.register(Pet.class);
+      context.register(Dog.class);
+
+      context.refresh();
+
+      Person person = context.getBean(Person.class);
+
+      System.out.println("Имя: " + person.getName());
+      System.out.println("Возраст: " + person.getAge());
+      System.out.println("Питомец: " + person.getPet().getName());
+      person.getPet().makeSound();
+
+      context.close();
+  }
 }
