@@ -20,7 +20,7 @@ public class Test3 {
 
 
             List<Employee> emps = session.createQuery("from Employee" +
-                            "where name = 'Nikita' AND salary>650")
+                            "where name = 'Yulia' AND salary>650")
                             .getResultList();
 
             for (Employee e: emps)
