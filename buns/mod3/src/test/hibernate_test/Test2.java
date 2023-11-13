@@ -15,7 +15,7 @@ public class Test2 {
         try {
             //добавляем работника в таблицу
             Session session = factory.getCurrentSession();
-            Employee emp = new Employee("Nikita", "BlackHole", "Application", 5000);
+            Employee emp = new Employee("Yulia", "Photo", "Application", 5000);
             session.beginTransaction();
             session.save(emp);
 
