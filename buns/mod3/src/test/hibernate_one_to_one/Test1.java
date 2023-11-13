@@ -16,8 +16,8 @@ public class Test1 {
 
         try {
 
-            Employee employee = new Employee("Nikita", "Novgorodtsev", "Student", 0);
-            Detail detail = new Detail("Ekaterinburg", "540826", "nnovg@mail.ru");
+            Employee employee = new Employee("Yulia", "Lyasheva", "Student", 0);
+            Detail detail = new Detail("Ekaterinburg", "540826", "ylyash@mail.ru");
 
             employee.setEmpDetail(detail);
             session.beginTransaction();
