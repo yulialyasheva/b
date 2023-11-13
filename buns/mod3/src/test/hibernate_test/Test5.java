@@ -17,7 +17,7 @@ public class Test5 {
             session.beginTransaction();
 
 
-           session.createQuery("delete Employee" + "where firstName = 'Nikita'").executeUpdate();
+           session.createQuery("delete Employee" + "where firstName = 'Yulia'").executeUpdate();
 
             session.getTransaction().commit();
 
